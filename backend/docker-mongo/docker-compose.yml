@@ -1,0 +1,6 @@
+version: '2'
+services:
+  mongo:
+    image: mongo:4.4.0-bionic
+    ports:
+      - 40000:27017
