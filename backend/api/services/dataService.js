@@ -10,7 +10,7 @@ exports.get_all_data = function(req, res){
     }
     selectQ[mParam] = 1
 
-    let query = Data.find({}).select(selectQ)
+    let query = Data.find({}).sort({ date: -1 }).select(selectQ)
     query.exec((err, value) => {
         let resBuffer = []
         if(err){

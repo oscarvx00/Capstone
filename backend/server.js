@@ -3,6 +3,7 @@ const { default: mongoose } = require('mongoose')
 
 app = express()
 port = 3000
+clientURL = "http://localhost:8080";
 Data = require('./api/models/dataModel')
 bodyParser = require('body-parser');
 
@@ -16,7 +17,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error'))
 
 
 
-app.use(cors())
+app.use(cors({credentials: true, origin: clientURL}))
 
 
 
