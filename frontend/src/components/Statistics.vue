@@ -7,8 +7,6 @@
                                     <!-- Title -->
                                     <h1 class="d-flex justify-content-center mb-5">Estadísticas: {{loss.name}}</h1>
                                     
-                                    
-                                    
                                     <!-- Chart -->
                                     <div class="d-flex justify-content-center mb-5">
                                         <Bar :chart-data="chartData" style="width:60%"/>
@@ -124,6 +122,7 @@
             async handleUpdate(loss: LossData) {
                 try {
                     await updateLoss(this.loss.type, loss);
+                    this.loadLosses()
                     console.log("Loss updated: " + loss.date + " " + loss.value);
                     
                 } catch (error) {
@@ -139,8 +138,8 @@
             }
             //Create loss object
             this.loss = {
-                type: this.$route.params.type as string,
-                name: map.get(this.$route.params.type)
+                type: this.$route.query.type as string,
+                name: map.get(this.$route.query.type)
             };
             //Get lossses from db
             this.loadLosses()

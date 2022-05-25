@@ -1,7 +1,7 @@
 <template>
     <div>    
-        <h1>{{$t("msg.err404")}}</h1>    
-        <router-link :to="{ name: pathHome }">{{$t("msg.home")}}</router-link>
+        <h1>404: Página no encontrada</h1>    
+        <router-link :to="{ name: pathHome }">Home</router-link>
     </div>
 </template>
 

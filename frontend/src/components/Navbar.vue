@@ -8,13 +8,14 @@
             <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
                 <ul class="navbar-nav">
                     <li class="nav-item" v-for="(loss, index) in lossTypes" :key="index">
-                        <a :href="$router.resolve({ name: pathStatistics, params: { type: loss.type } }).href" class="nav-item nav-link">{{loss.name}}</a>
+                        <!-- <a :href="$router.resolve({ name: pathStatistics, params: { type: loss.type } }).href" class="nav-item nav-link">{{loss.name}}</a> -->
+                        <router-link :to="{ name: pathStatistics, query: { type: loss.type } }" class="nav-item nav-link"> {{loss.name}} </router-link>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link navbar-brand ms-4" href="#" role="button" data-bs-toggle="dropdown"><b-icon-list/></a>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
                             <li class="nav-item" v-for="(loss, index) in otherTypes" :key="index">
-                                <a :href="$router.resolve({ name: pathStatistics, params: { type: loss.type } }).href" class="nav-item nav-link">{{loss.name}}</a>
+                                <router-link :to="{ name: pathStatistics, query: { type: loss.type } }" class="nav-item nav-link"> {{loss.name}} </router-link>
                             </li>
                         </ul>
                     </li>
