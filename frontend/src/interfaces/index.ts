@@ -1,3 +1,8 @@
+interface User {
+    username: string;
+    password: string
+}
+
 interface Loss {
     type: string;
     name: string;
@@ -8,4 +13,4 @@ interface LossData {
     value: string;
 }
 
-export { Loss, LossData }
+export { User, Loss, LossData }
