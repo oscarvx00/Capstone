@@ -21,7 +21,7 @@
 
                     <div class="nav-item my-2" v-for="(loss, index) in lossTypes" :key="index">
                         <div class="d-grid mx-auto">
-                            <router-link :to="{ name: pathStatistics,  params: { type: loss.type } }" class="btn btn-primary py-3" ><b>{{loss.name}}</b></router-link>
+                            <router-link :to="{ name: pathStatistics,  query: { type: loss.type } }" class="btn btn-primary py-3" ><b>{{loss.name}}</b></router-link>
                         </div>
                     </div>
 
@@ -37,6 +37,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import Cookies from "js-cookie";
 import { Loss } from "@/interfaces";
 
 
@@ -45,6 +46,7 @@ import { Loss } from "@/interfaces";
         data() {
             return {
                 pathStatistics: 'statistics',
+                pathLogin: 'login',
                 lossTypes: [
                     { name: "Avión", type: "aircraft"}, 
                     { name: "Helicóptero", type: "helicopter"}, 
@@ -61,7 +63,12 @@ import { Loss } from "@/interfaces";
                 ] as Loss[],
                 
             };
+        },
+        mounted() {
+            if(!Cookies.get("jwt"))
+                this.$router.push({ name: this.pathLogin});
         }
+            
     });
 
 </script>

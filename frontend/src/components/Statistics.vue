@@ -46,6 +46,7 @@
     import Datepicker from 'vue3-datepicker'
     import { Bar } from 'vue-chartjs'
     import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+    import Cookies from "js-cookie";
 
     //Create chart
     ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
@@ -63,6 +64,7 @@
                 newLoss: {} as LossData,
                 newDate: new Date(),
                 pathStatistics: 'statistics',
+                pathLogin: 'login',
                 lossTypes: ["aircraft", "helicopter", "tank", "APC", "field_artillery", "MRL", "military_auto", "fuel_tank", "drone", "naval_ship", "anti_aircraft_warfare", "special_equipment"] as string[],
                 lossNames: ["Avión", "Helicóptero", "Tanque", "APC", "Artillería", "MRL", "Carro de combate", "Tanque de combustible", "Drone", "Buque", "Antiaéreos", "Equipamiento"] as string[],
                 chartData: {
@@ -70,6 +72,15 @@
                     datasets: [] as object[]
                 }
             };
+        },
+        watch: {
+            '$route.query': function() {
+                //Reload list if the query param change
+                if(this.$route.name == 'statistics') {
+                    this.loss.type = this.$route.query.type as string
+                    this.loadLosses();
+                }
+            }
         },
         methods: {
             async loadLosses() {
@@ -131,18 +142,23 @@
             }
         },
         mounted() {
-            //Link type with names
-            const map = new Map();
-            for (let i = 0; i < this.lossTypes.length; i++) {
-                map.set(this.lossTypes[i], this.lossNames[i]);
+            if(Cookies.get("jwt")) {
+                //Link type with names
+                const map = new Map();
+                for (let i = 0; i < this.lossTypes.length; i++) {
+                    map.set(this.lossTypes[i], this.lossNames[i]);
+                }
+                //Create loss object
+                this.loss = {
+                    type: this.$route.query.type as string,
+                    name: map.get(this.$route.query.type)
+                };
+                //Get lossses from db
+                this.loadLosses()
             }
-            //Create loss object
-            this.loss = {
-                type: this.$route.query.type as string,
-                name: map.get(this.$route.query.type)
-            };
-            //Get lossses from db
-            this.loadLosses()
+            else
+                this.$router.push({ name: this.pathLogin});
+            
         }
     });
     

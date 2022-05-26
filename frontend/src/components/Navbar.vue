@@ -12,12 +12,15 @@
                         <router-link :to="{ name: pathStatistics, query: { type: loss.type } }" class="nav-item nav-link"> {{loss.name}} </router-link>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link navbar-brand ms-4" href="#" role="button" data-bs-toggle="dropdown"><b-icon-list/></a>
+                        <a class="nav-link navbar-brand ms-2" href="#" role="button" data-bs-toggle="dropdown"><b-icon-list/></a>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
                             <li class="nav-item" v-for="(loss, index) in otherTypes" :key="index">
                                 <router-link :to="{ name: pathStatistics, query: { type: loss.type } }" class="nav-item nav-link"> {{loss.name}} </router-link>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link" href="#" v-on:click="logout"><b-icon-power/></a>
                     </li>
                 </ul>
             </div>
@@ -28,6 +31,7 @@
 
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
+import Cookies from "js-cookie";
 import { Loss } from "@/interfaces";
 
     export default defineComponent({
@@ -35,6 +39,7 @@ import { Loss } from "@/interfaces";
         data() {
             return {
                 pathHome: 'home',
+                pathLogin: 'login',
                 pathStatistics: 'statistics',
                 lossTypes: [
                     { name: "Avión", type: "aircraft"}, 
@@ -53,6 +58,12 @@ import { Loss } from "@/interfaces";
                     { name: "Equipamiento", type: "special_equipment"}
                 ] as Loss[]
             };
+        },
+        methods: {    
+            logout: function () {
+                Cookies.remove('jwt');
+                this.$router.push({ name: this.pathLogin});
+            }    
         }
     })
 </script>

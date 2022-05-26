@@ -30,7 +30,7 @@ exports.sign = async function(req, res){
         username
     }
 
-    let token = jwt.sign(userData, secret, {expiresIn: '30m'})
+    let token = jwt.sign(userData, secret, {expiresIn: '24h'})
     res.status(200).json({token: token})
 }
 

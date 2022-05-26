@@ -1,12 +1,12 @@
 <template>
     <div class="container py-4">
         <div class="row align-items-center">
-            <div class="col-lg-6 my-4 ">
+            <div class="col my-4 ">
                 <div class="d-flex justify-content-center">
                         <div class="d-flex w-75 flex-column">
                             <div class="card p-4">
                                 <div class="card-body">
-                                    <h1>Registrarse</h1>
+                                    <h1>Registrarse en WarLoss</h1>
                                     <p>
                                         ¿Ya está registrado? 
                                         <router-link :to="{ name: urlLogin }">Iniciar sesión</router-link>
@@ -18,7 +18,7 @@
                                     <label for="password" class="form-label">Contraseña:</label><br>    
                                     <input type="password" id="password" v-model="user.password" class="form-control" required/><br>
                                         
-                                    <p v-if="errFields" class="error">Rellene todos los campos.</p>
+                                    <p v-if="errFields" class="error" style="color:red">Rellene todos los campos.</p>
                                     <div class="d-grid">
                                         <button v-on:click="register" class="btn btn-primary">Registrarse</button>
                                     </div>    
@@ -36,6 +36,7 @@
 
 <script lang="ts"> 
     import { router } from "@/router";
+    import Cookies from "js-cookie";
     import { User } from "@/interfaces";
     import { defineComponent } from "@vue/runtime-core";
     import { login, register } from "@/services/authService"
@@ -68,6 +69,9 @@
                             try {
                                 let res = await login(credentials);    
                                 const token = res.data.token;
+                                //Set cookie
+                                Cookies.set("jwt", token, { expires: 1 });
+                                console.log("Logged in: " + token);
                                 console.log("Logged in: " + token);
                                 router.push({ name: this.pathHome});
                             }catch(error) { loginError = true; }
